@@ -15,6 +15,7 @@ install-package GoogleChrome
 install-package Firefox
 install-package 7zip
 install-package visualstudiocode
+install-package tortoisegit
 install-package spotify
 install-package jdk8
 install-package skype
