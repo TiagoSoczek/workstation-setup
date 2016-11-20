@@ -28,6 +28,9 @@ install-package nodejs.install
 # Instalar .NET Core
 # Instalar Resharper
 
+(new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
+Install-Module posh-git
+
 # Instalar IIS
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServer -All
