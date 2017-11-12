@@ -23,8 +23,8 @@ choco install nodejs.install
 
 # Installl Office
 # Installl Visual Studio
-# Installl .NET Core
-# Installl Resharper
+
+choco install resharper
 
 (new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
 Install-Module posh-git
