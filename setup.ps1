@@ -1,99 +1,60 @@
-# https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_10
 Enable-WindowsOptionalFeature -Online -FeatureName Containers -All
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -All
 
 Restart-Computer -Force
 
-Set-ExecutionPolicy unrestricted
-iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+# Install choco
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco feature enable -n=allowGlobalConfirmation
 
-Get-PackageProvider -name chocolatey -Force
-Set-PackageSource -Name chocolatey -Trusted 
+choco install googlechrome
+choco install 7zip.install
+choco install git.install
+choco install sysinternals
+choco install visualstudiocode
+choco install cmder
+choco install tortoisegit
+choco install jdk8
+choco install skype
+choco install fiddler
+choco install ilspy
+choco install nodejs.install
 
-install-package GoogleChrome
-install-package Firefox
-install-package 7zip
-install-package visualstudiocode
-install-package tortoisegit
-install-package spotify
-install-package jdk8
-install-package skype
-install-package fiddler
-install-package ilspy
-install-package nodejs.install
-
-# Instalar Office
-# Instalar Visual Studio
-# Instalar .NET Core
-# Instalar Resharper
+# Installl Office
+# Installl Visual Studio
+# Installl .NET Core
+# Installl Resharper
 
 (new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
 Install-Module posh-git
 
-# Instalar IIS
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServer -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-CommonHttpFeatures -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpErrors -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpRedirect -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ApplicationDevelopment -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-NetFxExtensibility -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-NetFxExtensibility45 -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HealthAndDiagnostics -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpLogging -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-LoggingLibraries -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-RequestMonitor -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpTracing -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-Security -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-URLAuthorization -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-RequestFiltering -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-IPSecurity -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-Performance -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpCompressionDynamic -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerManagementTools -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ManagementScriptingTools -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-IIS6ManagementCompatibility -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-Metabase -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HostableWebCore -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-CertProvider -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-DigestAuthentication -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ClientCertificateMappingAuthentication -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-IISCertificateMappingAuthentication -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ODBCLogging -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-StaticContent -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-DefaultDocument -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-DirectoryBrowsing -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebDAV -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebSockets -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ApplicationInit -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ASPNET -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ASPNET45 -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ASP -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ServerSideIncludes -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-CustomLogging -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-BasicAuthentication -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpCompressionStatic -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ManagementConsole -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-ManagementService -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WMICompatibility -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-LegacyScripts -All
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-LegacySnapIn -All
+# Install IIS - All features - Only for dev machine
+Enable-WindowsOptionalFeature -Online -FeatureName IIS-* -All
 
-Enable-WindowsOptionalFeature -Online -FeatureName NetFx4Extended-ASPNET45 -All
+Import-Module WebAdministration
 
-# Configurar Binding SSL
-Push-Location IIS:\SslBindings
- 
-New-WebBinding -Name "Default Web Site" -IP "*" -Port 443 -Protocol https
+# Remove defaults
+Remove-WebAppPool -Name *
+Remove-Website -Name *
 
-$sslCert = New-SelfSignedCertificate -DnsName localhost -CertStoreLocation Cert:\LocalMachine\My
+# Create Default AppPool and Default Site
+New-WebAppPool -Name DefaultPool
+New-Website -Name Default -Port 80 -PhysicalPath C:\inetpub\wwwroot\ -ApplicationPool DefaultPool
 
-Get-Item Cert:\LocalMachine\MY\$strThumb | New-Item 0.0.0.0!443
-Pop-Location
+# Add HTTPS binding
+New-WebBinding -Name Default -Protocol https
 
-Restart-Service W3SVC
+# Create self-signed certificate
+$cert = New-SelfSignedCertificate -DnsName localhost, $env:COMPUTERNAME -CertStoreLocation Cert:\LocalMachine\My
+
+# Trust it
+$rootStore = New-Object System.Security.Cryptography.X509Certificates.X509Store -ArgumentList Root, LocalMachine
+$rootStore.Open("MaxAllowed")
+$rootStore.Add($cert)
+$rootStore.Close()
+
+# And add to binding
+pushd IIS:\SslBindings
+$cert | New-Item 0.0.0.0!443
+popd
