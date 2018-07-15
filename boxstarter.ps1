@@ -46,36 +46,6 @@ Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtec
 Set-TaskbarOptions -Size Small -Dock Top -Combine Full -Lock
 Set-TaskbarOptions -Size Small -Dock Top -Combine Full -AlwaysShowIconsOn
 
-#--- IIS ---
-Get-WindowsOptionalFeature -Online -FeatureName IIS-* | Enable-WindowsOptionalFeature -Online -All
-Import-Module WebAdministration
-
-# Remove defaults
-Remove-WebAppPool -Name *
-Remove-Website -Name *
-
-# Create Default AppPool and Default Site
-New-WebAppPool -Name DefaultPool
-cp c:\inetpub\wwwroot\ c:\www\default
-New-Website -Name Default -Port 80 -PhysicalPath C:\www\default\ -ApplicationPool DefaultPool
-
-# Add HTTPS binding
-New-WebBinding -Name Default -Protocol https
-
-# Create self-signed certificate
-$cert = New-SelfSignedCertificate -DnsName localhost, $env:COMPUTERNAME -CertStoreLocation Cert:\LocalMachine\My
-
-# Trust it
-$rootStore = New-Object System.Security.Cryptography.X509Certificates.X509Store -ArgumentList Root, LocalMachine
-$rootStore.Open("MaxAllowed")
-$rootStore.Add($cert)
-$rootStore.Close()
-
-# And add to binding
-pushd IIS:\SslBindings
-$cert | New-Item 0.0.0.0!443
-popd
-
 #--- Uninstall unecessary applications that come with Windows out of the box ---
 
 # 3D Builder
@@ -204,6 +174,9 @@ Get-AppxPackage *DisneyMagicKingdoms* | Remove-AppxPackage
 # Spotify
 Get-AppxPackage *Spotify* | Remove-AppxPackage
 
+Get-AppxPackage *HiddenCityMysteryofShadows | Remove-AppxPackage
+Get-AppxPackage *Dolby* | Remove-AppxPackage
+
 #--- Windows Settings ---
 # Some from: @NickCraver's gist https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
 
@@ -290,7 +263,7 @@ Install-WindowsUpdate -acceptEula
 
 #--- Rename the Computer ---
 # Requires restart, or add the -Restart flag
-$computername = "tiagso-7510"
+$computername = "tiagso-5510"
 if ($env:computername -ne $computername) {
 	Rename-Computer -NewName $computername
 }
